@@ -40,6 +40,7 @@
       color: white;  
       border-radius: 4px;  
       cursor: pointer;  
+      transition: background-color 0.3s;  
     }  
     .copy-btn:hover {  
       background-color: #45a049;  
@@ -68,19 +69,19 @@
 
     <h3>HTML Code:</h3>  
     <pre><code id="htmlCodeOutput"></code></pre>  
-    <button class="copy-btn" onclick="copyCode('htmlCodeOutput')">Copy Code</button>  
+    <button id="htmlCopyBtn" class="copy-btn" onclick="copyCode('htmlCodeOutput','htmlCopyBtn')">Copy Code</button>  
 
     <h3>Markdown Code:</h3>  
     <pre><code id="markdownCodeOutput"></code></pre>  
-    <button class="copy-btn" onclick="copyCode('markdownCodeOutput')">Copy Code</button>  
+    <button id="markdownCopyBtn" class="copy-btn" onclick="copyCode('markdownCodeOutput','markdownCopyBtn')">Copy Code</button>  
 
     <h3>BBCode Code:</h3>  
     <pre><code id="bbcodeCodeOutput"></code></pre>  
-    <button class="copy-btn" onclick="copyCode('bbcodeCodeOutput')">Copy Code</button>  
+    <button id="bbcodeCopyBtn" class="copy-btn" onclick="copyCode('bbcodeCodeOutput','bbcodeCopyBtn')">Copy Code</button>  
 
     <h3>Plain URL Code:</h3>  
     <pre><code id="plainCodeOutput"></code></pre>  
-    <button class="copy-btn" onclick="copyCode('plainCodeOutput')">Copy Code</button>  
+    <button id="plainCopyBtn" class="copy-btn" onclick="copyCode('plainCodeOutput','plainCopyBtn')">Copy Code</button>  
   </div>  
 
   <script>  
@@ -114,19 +115,27 @@
       let newContentBbcode = replaceLimited(limitedContent, keyword, bbcodeLink, maxLimit);  
       let newContentPlain = replaceLimited(limitedContent, keyword, plainLink, maxLimit);  
       
-      // Hiển thị kết quả dạng code  
+      // Hiển thị kết quả dạng code cho từng định dạng  
       document.getElementById("htmlCodeOutput").textContent = newContentHtml;  
       document.getElementById("markdownCodeOutput").textContent = newContentMarkdown;  
       document.getElementById("bbcodeCodeOutput").textContent = newContentBbcode;  
       document.getElementById("plainCodeOutput").textContent = newContentPlain;  
     }  
 
-    function copyCode(elementId) {  
+    function copyCode(elementId, btnId) {  
       let codeElement = document.getElementById(elementId);  
       let codeText = codeElement.textContent;  
+      let copyBtn = document.getElementById(btnId);  
       
       if (navigator.clipboard && window.isSecureContext) {  
           navigator.clipboard.writeText(codeText)  
+          .then(() => {  
+              // Thay đổi nội dung nút khi copy thành công  
+              let originalText = copyBtn.textContent;  
+              copyBtn.textContent = 'Đã copy';  
+              // Sau 2 giây, trả lại nội dung ban đầu  
+              setTimeout(() => { copyBtn.textContent = originalText; }, 2000);  
+          })  
           .catch(err => console.error('Copy thất bại: ', err));  
       } else {  
           let textArea = document.createElement("textarea");  
@@ -140,6 +149,9 @@
           
           try {  
               document.execCommand('copy');  
+              let originalText = copyBtn.textContent;  
+              copyBtn.textContent = 'Đã copy';  
+              setTimeout(() => { copyBtn.textContent = originalText; }, 2000);  
           } catch (err) {  
               console.error('Copy thất bại: ', err);  
           }  
