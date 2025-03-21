@@ -127,8 +127,7 @@
       
       if (navigator.clipboard && window.isSecureContext) {  
           navigator.clipboard.writeText(codeText)  
-          .then(() => alert('Đã copy code!'))  
-          .catch(err => alert('Copy thất bại: ' + err));  
+          .catch(err => console.error('Copy thất bại: ', err));  
       } else {  
           let textArea = document.createElement("textarea");  
           textArea.value = codeText;  
@@ -140,13 +139,9 @@
           textArea.select();  
           
           try {  
-              if (document.execCommand('copy')) {  
-                  alert('Đã copy code!');  
-              } else {  
-                  alert('Copy thất bại!');  
-              }  
+              document.execCommand('copy');  
           } catch (err) {  
-              alert('Copy thất bại: ' + err);  
+              console.error('Copy thất bại: ', err);  
           }  
           document.body.removeChild(textArea);  
       }  
