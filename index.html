@@ -2,16 +2,6 @@
 <html>  
 <head>  
   <title>Hiển thị Kết Quả Dạng Code</title>  
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DKZ1Y2KJ4E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-DKZ1Y2KJ4E');
-</script>
- 
   <style>  
     body {  
       font-family: Arial, sans-serif;  
@@ -353,7 +343,7 @@
       <textarea id="limitedContent" rows="5" placeholder="Nội dung này sẽ được thay thế từ khóa bằng liên kết"></textarea>  
 
       <div class="toggle-section">
-        <button id="linkToggleBtn" class="toggle-btn active" onclick="toggleSection('linkContent')">Thiết lập liên kết</button>
+      -----------------------------------------
         <div id="linkContent" class="toggle-content active">
           <label for="keyword">Từ khóa:</label>  
           <input type="text" id="keyword" placeholder="Nhập từ cần thay thế">  
@@ -367,8 +357,8 @@
       </div>
 
       <div class="toggle-section">
-        <button id="imageToggleBtn" class="toggle-btn" onclick="toggleSection('imageContent')">Thiết lập hình ảnh</button>
-        <div id="imageContent" class="toggle-content">
+-----------------------        
+      <div id="imageContent" class="toggle-content">
           <label for="imageUrl">Link hình ảnh:</label>
           <input type="text" id="imageUrl" placeholder="Nhập đường dẫn hình ảnh">
           
@@ -923,7 +913,7 @@
     function replaceLimited(content, keyword, replacement, limit) {  
       if (!keyword) return content;
       let count = 0;  
-      return content.replace(new RegExp(escapeRegExp(keyword), 'g'), function(match) {  
+      return content.replace(new RegExp(escapeRegExp(keyword), 'gi'), function(match) {  
         if (count < limit) {  
           count++;  
           return replacement;  
